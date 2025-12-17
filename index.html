@@ -1,0 +1,460 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Quiz Sejarah Indonesia</title>
+
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body { 
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: #ffffff;
+      min-height: 100vh;
+      overflow: hidden;
+      text-align: center;
+    }
+
+    .container { 
+      max-width: 100%;
+      margin: 0;
+      padding: 0;
+      width: 100%;
+    }
+
+   .screen { 
+  display: none;
+  height: 100vh;
+  width: 100%;
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 1;
+}
+
+.screen.active {
+  display: flex !important;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  z-index: 10;
+}
+
+
+  /* ====== WELCOME SCREEN BLUR ====== */
+#welcome {
+  position: relative;
+  overflow: hidden;
+  height: 100vh;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  color: #ffffff;
+}
+
+/* background image + blur */
+#welcome::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: url("Foto1.jpg") center / cover no-repeat;
+  filter: blur(8px);
+  transform: scale(1.1);
+  z-index: 1;
+}
+
+/* overlay gelap */
+#welcome::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.55);
+  z-index: 2;
+}
+
+/* konten di atas background */
+#welcome h1,
+#welcome p,
+#welcome button {
+  position: relative;
+  z-index: 3;
+}
+
+/* teks */
+#welcome h1 {
+  font-size: 3.5em;
+  margin-bottom: 20px;
+  font-weight: 700;
+  color: #ffffff;
+  text-shadow: 0 4px 15px rgba(0,0,0,0.7);
+}
+
+#welcome p {
+  font-size: 1.2em;
+  margin-bottom: 50px;
+  max-width: 600px;
+  color: #f1f1f1;
+  line-height: 1.6;
+  text-shadow: 0 2px 10px rgba(0,0,0,0.6);
+}
+
+    #welcome button {
+      animation: slideDown 0.8s ease-out 0.4s backwards;
+    }
+
+    #levelSelect {
+      background: linear-gradient(135deg, #ffffff 0%, #fffbf0 100%);
+    }
+
+    #levelSelect h2 {
+      color: #3d3d3d;
+      font-size: 2.8em;
+      margin-bottom: 60px;
+      font-weight: 700;
+      letter-spacing: -1px;
+    }
+
+    #levelSelect button {
+      margin: 15px;
+      min-width: 180px;
+    }
+
+    #quiz {
+      background: linear-gradient(135deg, #ffffff 0%, #fffbf0 100%);
+      padding: 40px 20px;
+      overflow-y: auto;
+    }
+
+    #quiz h2 {
+      color: #3d3d3d;
+      font-size: 1.8em;
+      margin-bottom: 50px;
+      max-width: 800px;
+      line-height: 1.5;
+      font-weight: 600;
+      letter-spacing: -0.5px;
+    }
+
+    #options {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      max-width: 700px;
+      width: 100%;
+    }
+
+    #resultScreen {
+      background: linear-gradient(135deg, #ffffff 0%, #fffbf0 100%);
+    }
+
+    #resultScreen h2 {
+      color: #3d3d3d;
+      font-size: 2.5em;
+      margin-bottom: 30px;
+      font-weight: 700;
+      letter-spacing: -1px;
+    }
+
+    #finalScore {
+      color: #3d3d3d;
+      font-size: 2.2em;
+      font-weight: 700;
+      margin-bottom: 50px;
+      padding: 40px 60px;
+      background: #fffbf0;
+      border-radius: 20px;
+      box-shadow: 0 15px 40px rgba(0, 0, 0, 0.08);
+      min-width: 350px;           
+      border: 2px solid #f5f0e8;
+    }
+
+    /* ====== BUTTONS ====== */
+    button {
+      padding: 15px 40px;
+      margin: 10px;
+      font-size: 1.1em;
+      font-weight: 600;
+      cursor: pointer;
+      border-radius: 12px;
+      border: none;
+      background: linear-gradient(135deg, #d4a574 0%, #c89666 100%);
+      color: white;
+      transition: all 0.3s ease;
+      box-shadow: 0 10px 25px rgba(212, 165, 116, 0.2);
+      text-transform: uppercase;
+      letter-spacing: 1.5px;
+      font-size: 1em;
+    }
+
+    button:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 15px 35px rgba(212, 165, 116, 0.3);
+    }
+
+    button:active {
+      transform: translateY(-2px);
+    }
+
+    /* ====== OPTIONS ====== */
+    .option {
+      display: block;
+      padding: 18px 22px;
+      background: #fffbf0;
+      border-radius: 12px;
+      border: 2px solid #f5f0e8;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      font-size: 1.05em;
+      font-weight: 500;
+      color: #2c2c2c;
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+      text-align: left;
+    }
+
+    .option:hover:not(.correct):not(.wrong) {
+      border-color: #d4a574;
+      transform: translateX(10px);
+      box-shadow: 0 8px 25px rgba(212, 165, 116, 0.1);
+    }
+
+    .correct { 
+      background: linear-gradient(135deg, #27ae60 0%, #229954 100%) !important;
+      color: white !important;
+      border-color: #27ae60 !important;
+      box-shadow: 0 10px 30px rgba(39, 174, 96, 0.3) !important;
+    }
+
+    .wrong { 
+      background: linear-gradient(135deg, #e74c3c 0%, #c0392b 100%) !important;
+      color: white !important;
+      border-color: #e74c3c !important;
+      box-shadow: 0 10px 30px rgba(231, 76, 60, 0.3) !important;
+    }
+
+    @keyframes slideDown {
+      from {
+        opacity: 0;
+        transform: translateY(-30px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    @keyframes slideUp {
+      from {
+        opacity: 0;
+        transform: translateY(30px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+  </style>
+</head>
+
+<body>
+
+  <!-- FULLSCREEN WELCOME -->
+  <div id="welcome" class="screen active">
+    <h1>Selamat Datang di Quiz Sejarah Indonesia</h1>
+    <p>Uji pengetahuanmu tentang suku, budaya, adat istiadat, dan provinsi di Indonesia!</p>
+    <button onclick="goToLevelSelect()">Start</button>
+  </div>
+
+  <div class="container">
+
+    <!-- Level Selection Screen -->
+    <div id="levelSelect" class="screen">
+      <h2>Pilih Level</h2>
+      <button onclick="startLevel(1)">Level 1</button>
+      <button onclick="startLevel(2)">Level 2</button>
+      <button onclick="startLevel(3)">Level 3</button>
+    </div>
+
+    <!-- Quiz Screen -->
+    <div id="quiz" class="screen">
+      <h2 id="questionText"></h2>
+      <div id="options"></div>
+    </div>
+
+    <!-- Result Screen -->
+    <div id="resultScreen" class="screen">
+      <h2>Hasil Akhir</h2>
+      <h3 id="finalScore"></h3>
+      <button onclick="showScreen('levelSelect')">Kembali ke Menu Level</button>
+    </div>
+
+  </div>
+
+  <script>
+    const questions = {
+      1: [
+        { q: "Suku Dayak berasal dari pulau?", a: "a", options: {a:"Kalimantan", b:"Jawa", c:"Sumatra", d:"Sulawesi"} },
+        { q: "Rumah adat Joglo berasal dari?", a: "b", options: {a:"Bali", b:"Jawa Tengah", c:"NTT", d:"Aceh"} },
+        { q: "Tari Saman berasal dari provinsi?", a: "d", options: {a:"NTB", b:"Jawa Barat", c:"Papua", d:"Aceh"} },
+        { q: "Suku Minang terkenal dengan rumah adat?", a: "c", options: {a:"Joglo", b:"Tongkonan", c:"Rumah Gadang", d:"Limas"} },
+        { q: "Pulau Bali terkenal dengan budaya?", a: "a", options: {a:"Hindu", b:"Islam", c:"Budha", d:"Kristen"} },
+        { q: "Suku Batak berasal dari?", a: "b", options: {a:"Jawa", b:"Sumatra Utara", c:"NTT", d:"Kalimantan"} },
+        { q: "Sasando adalah alat musik dari?", a: "c", options: {a:"Papua", b:"Jawa", c:"NTT", d:"Aceh"} },
+        { q: "Rumah Tongkonan berasal dari?", a: "d", options: {a:"Sumsel", b:"Lampung", c:"Bali", d:"Toraja"} },
+        { q: "Upacara Ngaben berasal dari?", a: "a", options: {a:"Bali", b:"Papua", c:"Jambi", d:"NTB"} },
+        { q: "Suku Asmat berasal dari?", a: "d", options: {a:"Sumatra", b:"Jawa", c:"Sulawesi", d:"Papua"} }
+      ],
+
+      2: [
+        { q: "Provinsi paling barat di Indonesia?", a: "b", options: {a:"Riau", b:"Aceh", c:"Sumbar", d:"Banten"} },
+        { q: "Tari Kecak berasal dari?", a: "a", options: {a:"Bali", b:"NTB", c:"Sulsel", d:"Papua"} },
+        { q: "Rumah Honai berasal dari?", a: "d", options: {a:"Jabar", b:"Jatim", c:"NTT", d:"Papua"} },
+        { q: "Suku Bugis berasal dari?", a: "c", options: {a:"Jambi", b:"Bali", c:"Sulawesi Selatan", d:"Sumsel"} },
+        { q: "Rendang berasal dari?", a: "b", options: {a:"Aceh", b:"Sumbar", c:"NTB", d:"Bali"} },
+        { q: "Rumah adat Limas berasal dari?", a: "d", options: {a:"Papua", b:"NTB", c:"Jambi", d:"Sumsel"} },
+        { q: "Alat musik Angklung berasal dari?", a: "a", options: {a:"Jawa Barat", b:"Bali", c:"NTT", d:"Maluku"} },
+        { q: "Upacara Kasada berasal dari?", a: "c", options: {a:"Papua", b:"Jambi", c:"Suku Tengger", d:"Batak"} },
+        { q: "Danau Toba berada di provinsi?", a: "b", options: {a:"Sumbar", b:"Sumut", c:"Aceh", d:"Riau"} },
+        { q: "Suku Toraja berasal dari?", a: "d", options: {a:"Jabar", b:"Banten", c:"Maluku", d:"Sulawesi Selatan"} }
+      ],
+
+      3: [
+        { q: "Tari Piring berasal dari?", a: "a", options: {a:"Sumbar", b:"Lampung", c:"NTB", d:"Aceh"} },
+        { q: "Rumah Balai Batak berasal dari?", a: "d", options: {a:"NTT", b:"Papua", c:"Jatim", d:"Sumut"} },
+        { q: "Lagu Ampar-Ampar Pisang berasal dari?", a: "b", options: {a:"Jatim", b:"Kalimantan Selatan", c:"Papua", d:"NTT"} },
+        { q: "Ciri khas Suku Baduy adalah?", a: "c", options: {a:"Rumah Gadang", b:"Tato Wajah", c:"Hidup Sederhana", d:"Topi Anyaman"} },
+        { q: "Rumah Buton berasal dari?", a: "a", options: {a:"Sulawesi Tenggara", b:"Sumsel", c:"Jabar", d:"NTB"} },
+        { q: "Tari Jaipong berasal dari?", a: "c", options: {a:"Papua", b:"Bali", c:"Jawa Barat", d:"Riau"} },
+        { q: "Provinsi terbaru Indonesia sebelum pemekaran terakhir?", a: "d", options: {a:"Kaltara", b:"Gorontalo", c:"Maluku Utara", d:"Sulawesi Barat"} },
+        { q: "Suku Dani berasal dari?", a: "a", options: {a:"Papua", b:"Sumbar", c:"NTT", d:"Maluku"} },
+        { q: "Rumah Baileo berasal dari?", a: "d", options: {a:"Jatim", b:"Papua", c:"NTT", d:"Maluku"} },
+        { q: "Tari Cakalele berasal dari?", a: "b", options: {a:"Aceh", b:"Maluku", c:"Jambi", d:"Papua"} }
+      ]
+    };
+
+    let currentLevel = 1;
+    let index = 0;
+    let score = 0;
+
+    let backgroundMusicElement = null;
+
+    // suara suara ama bg music
+    const audioFiles = {
+      welcomeMusic: 'music welcome.mp3',  
+      quizMusic: 'music quiz.mp3',        // ubah ubah di sini
+      correctSound: 'answer-correct.mp3',       
+      wrongSound: 'wrong-answer-126515.mp3'             
+    };
+
+    function playBackgroundMusic(type) {
+      stopBackgroundMusic();
+
+      const audioFile = type === 'welcome' ? audioFiles.welcomeMusic : audioFiles.quizMusic;
+      
+      backgroundMusicElement = new Audio(audioFile);
+      backgroundMusicElement.loop = true;
+      backgroundMusicElement.volume = 0.05;
+      backgroundMusicElement.play().catch(err => console.log('Could not play background music:', err));
+    }
+
+    function stopBackgroundMusic() {
+      if (backgroundMusicElement) {
+        backgroundMusicElement.pause();
+        backgroundMusicElement.currentTime = 0;
+        backgroundMusicElement = null;
+      }
+    }
+
+    function goToLevelSelect() {
+      stopBackgroundMusic();
+      playBackgroundMusic('welcome');
+      showScreen("levelSelect");
+    }
+
+    function startLevel(lv) {
+      currentLevel = lv;
+      index = 0;
+      score = 0;
+      stopBackgroundMusic();
+      showScreen("quiz");
+      playBackgroundMusic('quiz');
+      loadQuestion();
+    }
+
+    function loadQuestion() {
+      const q = questions[currentLevel][index];
+      document.getElementById("questionText").innerText = q.q;
+
+      const optDiv = document.getElementById("options");
+      optDiv.innerHTML = "";
+
+      for (let key in q.options) {
+        const div = document.createElement("div");
+        div.className = "option";
+        div.innerText = `${key}. ${q.options[key]}`;
+        div.onclick = () => checkAnswer(key, div);
+        optDiv.appendChild(div);
+      }
+    }
+
+    function checkAnswer(selected, element) {
+      const qData = questions[currentLevel][index];
+      const correct = qData.a;
+
+      if (selected === correct) {
+        element.classList.add("correct");
+        score++;
+        playSound('correct');
+      } else {
+        element.classList.add("wrong");
+        playSound('wrong');
+
+        const all = document.getElementById("options").children;
+        for (let opt of all) {
+          if (opt.innerText.startsWith(correct + ".")) {
+            opt.classList.add("correct");
+          }
+        }
+      }
+
+      document.querySelectorAll(".option").forEach(opt => opt.style.pointerEvents = "none");
+
+      setTimeout(() => {
+        index++;
+        if (index < 10) {
+          loadQuestion();
+        } else {
+          showResult();
+        }
+      }, 900);
+    }
+
+    function playSound(type) {
+      const audioFile = type === 'correct' ? audioFiles.correctSound : audioFiles.wrongSound;
+      const sound = new Audio(audioFile);
+      sound.volume = 0.5;
+      sound.play().catch(err => console.log('Could not play sound:', err));
+    }
+
+    function showResult() {
+      document.getElementById("finalScore").innerText =
+        `Score Level ${currentLevel}: ${score} / 10`;
+      showScreen("resultScreen");
+    }
+
+    function showScreen(id) {
+      document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+      document.getElementById(id).classList.add('active');
+    }
+  </script>
+
+</body>
+</html>
