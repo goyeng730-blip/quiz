@@ -44,10 +44,6 @@
   align-items: center;
   z-index: 10;
 }
-#welcome {
-  position: relative;
-  overflow: hidden;
-}
 
 
   /* ====== WELCOME SCREEN BLUR ====== */
@@ -69,7 +65,7 @@
   content: "";
   position: absolute;
   inset: 0;
-  background: url("FOTO.jpg") center / cover no-repeat;
+  background: url("Foto1.jpg") center / cover no-repeat;
   filter: blur(8px);
   transform: scale(1.1);
   z-index: 1;
@@ -304,44 +300,45 @@
 
   <script>
     const questions = {
-      1: [
-        { q: "Suku Dayak berasal dari pulau?", a: "a", options: {a:"Kalimantan", b:"Jawa", c:"Sumatra", d:"Sulawesi"} },
-        { q: "Rumah adat Joglo berasal dari?", a: "b", options: {a:"Bali", b:"Jawa Tengah", c:"NTT", d:"Aceh"} },
-        { q: "Tari Saman berasal dari provinsi?", a: "d", options: {a:"NTB", b:"Jawa Barat", c:"Papua", d:"Aceh"} },
-        { q: "Suku Minang terkenal dengan rumah adat?", a: "c", options: {a:"Joglo", b:"Tongkonan", c:"Rumah Gadang", d:"Limas"} },
-        { q: "Pulau Bali terkenal dengan budaya?", a: "a", options: {a:"Hindu", b:"Islam", c:"Budha", d:"Kristen"} },
-        { q: "Suku Batak berasal dari?", a: "b", options: {a:"Jawa", b:"Sumatra Utara", c:"NTT", d:"Kalimantan"} },
-        { q: "Sasando adalah alat musik dari?", a: "c", options: {a:"Papua", b:"Jawa", c:"NTT", d:"Aceh"} },
-        { q: "Rumah Tongkonan berasal dari?", a: "d", options: {a:"Sumsel", b:"Lampung", c:"Bali", d:"Toraja"} },
-        { q: "Upacara Ngaben berasal dari?", a: "a", options: {a:"Bali", b:"Papua", c:"Jambi", d:"NTB"} },
-        { q: "Suku Asmat berasal dari?", a: "d", options: {a:"Sumatra", b:"Jawa", c:"Sulawesi", d:"Papua"} }
-      ],
+    1: [
+  { q: "Siapa proklamator kemerdekaan Indonesia?", a: "a", options: {a:"Soekarno dan Hatta", b:"Soedirman dan Diponegoro", c:"Kartini dan Ki Hajar", d:"Sutomo dan Agus Salim"} },
+  { q: "Tanggal berapa Indonesia merdeka?", a: "b", options: {a:"1 Juni 1945", b:"17 Agustus 1945", c:"20 Mei 1908", d:"10 November 1945"} },
+  { q: "Teks Proklamasi dibacakan di?", a: "c", options: {a:"Istana Merdeka", b:"Gedung Sate", c:"Jalan Pegangsaan Timur 56", d:"Lapangan Ikada"} },
+  { q: "Penjajah Indonesia sebelum Jepang adalah?", a: "d", options: {a:"Inggris", b:"Spanyol", c:"Portugis", d:"Belanda"} },
+  { q: "Lagu kebangsaan Indonesia adalah?", a: "a", options: {a:"Indonesia Raya", b:"Bagimu Negeri", c:"Rayuan Pulau Kelapa", d:"Maju Tak Gentar"} },
+  { q: "Organisasi pergerakan nasional pertama adalah?", a: "b", options: {a:"Sarekat Islam", b:"Budi Utomo", c:"PNI", d:"PKI"} },
+  { q: "Tokoh pelopor emansipasi wanita Indonesia?", a: "c", options: {a:"Cut Nyak Dien", b:"Martha Christina", c:"RA Kartini", d:"Cut Nyak Meutia"} },
+  { q: "Bendera Merah Putih pertama dikibarkan saat?", a: "a", options: {a:"Proklamasi", b:"Sumpah Pemuda", c:"KMB", d:"Perang Diponegoro"} },
+  { q: "Pendudukan Jepang di Indonesia dimulai tahun?", a: "d", options: {a:"1930", b:"1935", c:"1939", d:"1942"} },
+  { q: "Bahasa persatuan Indonesia adalah?", a: "b", options: {a:"Jawa", b:"Indonesia", c:"Melayu", d:"Sunda"} }
+],
 
-      2: [
-        { q: "Provinsi paling barat di Indonesia?", a: "b", options: {a:"Riau", b:"Aceh", c:"Sumbar", d:"Banten"} },
-        { q: "Tari Kecak berasal dari?", a: "a", options: {a:"Bali", b:"NTB", c:"Sulsel", d:"Papua"} },
-        { q: "Rumah Honai berasal dari?", a: "d", options: {a:"Jabar", b:"Jatim", c:"NTT", d:"Papua"} },
-        { q: "Suku Bugis berasal dari?", a: "c", options: {a:"Jambi", b:"Bali", c:"Sulawesi Selatan", d:"Sumsel"} },
-        { q: "Rendang berasal dari?", a: "b", options: {a:"Aceh", b:"Sumbar", c:"NTB", d:"Bali"} },
-        { q: "Rumah adat Limas berasal dari?", a: "d", options: {a:"Papua", b:"NTB", c:"Jambi", d:"Sumsel"} },
-        { q: "Alat musik Angklung berasal dari?", a: "a", options: {a:"Jawa Barat", b:"Bali", c:"NTT", d:"Maluku"} },
-        { q: "Upacara Kasada berasal dari?", a: "c", options: {a:"Papua", b:"Jambi", c:"Suku Tengger", d:"Batak"} },
-        { q: "Danau Toba berada di provinsi?", a: "b", options: {a:"Sumbar", b:"Sumut", c:"Aceh", d:"Riau"} },
-        { q: "Suku Toraja berasal dari?", a: "d", options: {a:"Jabar", b:"Banten", c:"Maluku", d:"Sulawesi Selatan"} }
-      ],
+2: [
+  { q: "Peristiwa Rengasdengklok terjadi pada tanggal?", a: "c", options: {a:"14 Agustus 1945", b:"15 Agustus 1945", c:"16 Agustus 1945", d:"17 Agustus 1945"} },
+  { q: "Tokoh pengetik teks Proklamasi adalah?", a: "a", options: {a:"Sayuti Melik", b:"Ahmad Subardjo", c:"Soedirman", d:"Moh Yamin"} },
+  { q: "Tujuan dibentuknya BPUPKI adalah?", a: "b", options: {a:"Mengatur ekonomi", b:"Mempersiapkan kemerdekaan", c:"Mengusir Belanda", d:"Menyusun kabinet"} },
+  { q: "Sidang pertama BPUPKI membahas tentang?", a: "d", options: {a:"UUD", b:"Wilayah", c:"Kabinet", d:"Dasar negara"} },
+  { q: "Tokoh pengusul Pancasila pada 1 Juni 1945?", a: "a", options: {a:"Soekarno", b:"Moh Hatta", c:"Soepomo", d:"Ki Bagus"} },
+  { q: "Sumpah Pemuda terjadi pada tahun?", a: "c", options: {a:"1918", b:"1920", c:"1928", d:"1935"} },
+  { q: "Perlawanan rakyat Aceh dipimpin oleh?", a: "b", options: {a:"Pattimura", b:"Teuku Umar", c:"Diponegoro", d:"Imam Bonjol"} },
+  { q: "Konferensi Meja Bundar dilaksanakan di?", a: "d", options: {a:"Indonesia", b:"Inggris", c:"Jepang", d:"Belanda"} },
+  { q: "Tujuan Jepang membentuk PETA adalah?", a: "a", options: {a:"Membantu pertahanan Jepang", b:"Kemerdekaan", c:"Pendidikan", d:"Perdagangan"} },
+  { q: "Tokoh perlawanan Maluku melawan Belanda?", a: "c", options: {a:"Teuku Umar", b:"Diponegoro", c:"Pattimura", d:"Sisingamangaraja"} }
+],
 
-      3: [
-        { q: "Tari Piring berasal dari?", a: "a", options: {a:"Sumbar", b:"Lampung", c:"NTB", d:"Aceh"} },
-        { q: "Rumah Balai Batak berasal dari?", a: "d", options: {a:"NTT", b:"Papua", c:"Jatim", d:"Sumut"} },
-        { q: "Lagu Ampar-Ampar Pisang berasal dari?", a: "b", options: {a:"Jatim", b:"Kalimantan Selatan", c:"Papua", d:"NTT"} },
-        { q: "Ciri khas Suku Baduy adalah?", a: "c", options: {a:"Rumah Gadang", b:"Tato Wajah", c:"Hidup Sederhana", d:"Topi Anyaman"} },
-        { q: "Rumah Buton berasal dari?", a: "a", options: {a:"Sulawesi Tenggara", b:"Sumsel", c:"Jabar", d:"NTB"} },
-        { q: "Tari Jaipong berasal dari?", a: "c", options: {a:"Papua", b:"Bali", c:"Jawa Barat", d:"Riau"} },
-        { q: "Provinsi terbaru Indonesia sebelum pemekaran terakhir?", a: "d", options: {a:"Kaltara", b:"Gorontalo", c:"Maluku Utara", d:"Sulawesi Barat"} },
-        { q: "Suku Dani berasal dari?", a: "a", options: {a:"Papua", b:"Sumbar", c:"NTT", d:"Maluku"} },
-        { q: "Rumah Baileo berasal dari?", a: "d", options: {a:"Jatim", b:"Papua", c:"NTT", d:"Maluku"} },
-        { q: "Tari Cakalele berasal dari?", a: "b", options: {a:"Aceh", b:"Maluku", c:"Jambi", d:"Papua"} }
-      ]
+3: [
+  { q: "Piagam Jakarta disahkan menjadi Pembukaan UUD pada?", a: "b", options: {a:"16 Agustus 1945", b:"18 Agustus 1945", c:"19 Agustus 1945", d:"20 Agustus 1945"} },
+  { q: "Ketua BPUPKI adalah?", a: "a", options: {a:"Dr Radjiman Wedyodiningrat", b:"Soekarno", c:"Moh Hatta", d:"Ahmad Subardjo"} },
+  { q: "Sistem tanam paksa diterapkan oleh?", a: "c", options: {a:"Daendels", b:"Raffles", c:"Van den Bosch", d:"Van Heutsz"} },
+  { q: "Tujuan utama Politik Etis adalah?", a: "d", options: {a:"Militer", b:"Politik", c:"Ekonomi", d:"Balas budi kepada rakyat"} },
+  { q: "Penyebab utama Perang Diponegoro adalah?", a: "b", options: {a:"Pajak tinggi", b:"Pemasangan patok jalan", c:"Kerja paksa", d:"Perdagangan"} },
+  { q: "Peristiwa 10 November 1945 terjadi di?", a: "a", options: {a:"Surabaya", b:"Bandung", c:"Jakarta", d:"Medan"} },
+  { q: "Panglima Besar TNI pertama adalah?", a: "c", options: {a:"Soekarno", b:"Moh Hatta", c:"Soedirman", d:"Tan Malaka"} },
+  { q: "Tujuan utama Agresi Militer Belanda adalah?", a: "d", options: {a:"Kerja sama", b:"Perdamaian", c:"Membantu Indonesia", d:"Menguasai kembali Indonesia"} },
+  { q: "Perlawanan Sisingamangaraja XII terjadi di?", a: "b", options: {a:"Aceh", b:"Sumatra Utara", c:"Jawa Tengah", d:"Maluku"} },
+  { q: "Makna Proklamasi bagi bangsa Indonesia adalah?", a: "a", options: {a:"Lahirnya negara Indonesia", b:"Awal penjajahan", c:"Kekalahan Jepang", d:"Perang besar"} }
+]
+
     };
 
     let currentLevel = 1;
